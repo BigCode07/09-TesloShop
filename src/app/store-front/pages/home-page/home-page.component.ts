@@ -15,7 +15,7 @@ export class HomePageComponent {
   // Método que se ejecuta automáticamente cuando el componente se inicializa
   ngOnInit(): void {
     // Llama al método `getProducts()` del servicio para obtener productos desde el backend
-    this.productsService.getProducts().subscribe({
+    this.productsService.getProducts({ limit: 5, gender: 'women' }).subscribe({
       // Se ejecuta cuando se recibe una respuesta satisfactoria del backend
       next: (resp: ProductsResponse) => {
         // Muestra en consola la respuesta del backend (para depuración o verificación)
