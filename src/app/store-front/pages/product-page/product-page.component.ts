@@ -1,3 +1,4 @@
+import { Product } from './../../../products/interfaces/product.interface';
 import { ProductsService } from '@/products/services/products.service';
 import { Component, inject, resource } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
