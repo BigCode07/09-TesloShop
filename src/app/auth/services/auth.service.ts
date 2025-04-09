@@ -52,24 +52,16 @@ export class AuthService {
       return of(false);
     }
 
-    return this.http
-      .get<AuthResponse>(`${baseUrl}/auth/check-status`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .pipe(
-        map((resp) => this.handleAuthSuccess(resp)),
-        catchError((error: any) => this.handleAuthError(error))
-      );
+    return this.http.get<AuthResponse>(`${baseUrl}/auth/check-status`, {}).pipe(
+      map((resp) => this.handleAuthSuccess(resp)),
+      catchError((error: any) => this.handleAuthError(error))
+    );
   }
 
   logout() {
     this._user.set(null);
     this._token.set(null);
     this._authStatus.set('not-authenticated');
-
-    localStorage.removeItem('token');
   }
 
   private handleAuthSuccess({ user, token }: AuthResponse) {
