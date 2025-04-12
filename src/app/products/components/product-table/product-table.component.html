@@ -35,7 +35,7 @@
             </div>
             <div>
               <div
-                class="font-bold"
+                class="font-bold hover:text-secondary transition-colors duration-300 cursor-pointer"
                 [routerLink]="['/admin/products', product.id]"
               >
                 {{ product.title }}
@@ -47,9 +47,10 @@
           </div>
         </td>
         <td>
-          {{ product.price | currency }}
           <br />
-          <span class="badge badge-ghost badge-sm"></span>
+          <span class="badge badge-ghost badge-sm">
+            {{ product.price | currency }}</span
+          >
         </td>
         <td>
           @if (product.stock <= 10) {
