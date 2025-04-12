@@ -1,4 +1,4 @@
-import { User } from '@/auth/interfaces/user.interface';
+import { User } from '@auth/interfaces/user.interface';
 
 export interface ProductsResponse {
   count: number;
@@ -15,7 +15,7 @@ export interface Product {
   stock: number;
   sizes: Size[];
   gender: Gender;
-  tags: Tag[];
+  tags: string[];
   images: string[];
   user: User;
 }
@@ -31,27 +31,8 @@ export enum Size {
   L = 'L',
   M = 'M',
   S = 'S',
+  XS = 'XS',
   Xl = 'XL',
   Xs = 'XS',
   Xxl = 'XXL',
-}
-
-export enum Tag {
-  Hats = 'hats',
-  Hoodie = 'hoodie',
-  Jacket = 'jacket',
-  Shirt = 'shirt',
-  Sweatshirt = 'sweatshirt',
-}
-
-export enum Email {
-  Test1GoogleCOM = 'test1@google.com',
-}
-
-export enum FullName {
-  TestOne = 'Test One',
-}
-
-export enum Role {
-  Admin = 'admin',
 }

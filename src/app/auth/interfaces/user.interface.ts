@@ -1,9 +1,7 @@
-import { Email, FullName, Role } from '@/products/interfaces/product.interface';
-
 export interface User {
   id: string;
-  email: Email;
-  fullName: FullName;
+  email: string;
+  fullName: string;
   isActive: boolean;
-  roles: Role[];
+  roles: string[];
 }
