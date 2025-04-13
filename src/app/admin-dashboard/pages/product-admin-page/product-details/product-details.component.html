@@ -14,8 +14,9 @@
       placeholder="Título"
       class="input input-bordered w-full"
       formControlName="title"
+      [class.border-red-500]="productForm.get('title')?.errors ?? false"
     />
-
+    <shared-form-error-label [control]="productForm.get('title')!" />
     <input
       formControlName="slug"
       type="text"
@@ -27,24 +28,31 @@
       class="textarea textarea-bordered"
       placeholder="Descripción"
       rows="6"
+      formControlName="description"
+      [class.border-red-500]="productForm.get('description')?.errors ?? false"
     ></textarea>
-
+    <shared-form-error-label [control]="productForm.get('description')!" />
     <h2 class="text-lg font-bold">Datos de venta</h2>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-      <input
-        type="number"
-        placeholder="Precio"
-        class="input input-bordered w-full"
-        formControlName="price"
-      />
-
+      <div>
+        <input
+          type="number"
+          placeholder="Precio"
+          class="input input-bordered w-full"
+          formControlName="price"
+          [class.border-red-500]="productForm.get('price')?.errors ?? false"
+        />
+        <shared-form-error-label [control]="productForm.get('price')!" />
+      </div>
       <input
         type="number"
         placeholder="Inventario"
         class="input input-bordered w-full"
         formControlName="stock"
+        [class.border-red-500]="productForm.get('stock')?.errors ?? false"
       />
+      <shared-form-error-label [control]="productForm.get('stock')!" />
     </div>
 
     <!-- tags -->
@@ -53,7 +61,9 @@
       formControlName="tags"
       placeholder="Tags"
       class="input input-bordered w-full"
+      [class.border-red-500]="productForm.get('tags')?.errors ?? false"
     />
+    <shared-form-error-label [control]="productForm.get('tags')!" />
 
     <!-- Botones para el género -->
     <div class="grid grid-cols-4 gap-2 mt-2" type="button">
