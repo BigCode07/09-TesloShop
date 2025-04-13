@@ -1,6 +1,7 @@
 // Importamos la interfaz Routes para definir las rutas
 import { Routes } from '@angular/router';
 import { NotAuthenticatedGuard } from './auth/guards/not-authenticated.guard';
+import { IsAdminGuard } from './auth/guards/is-admin.guard';
 
 // Definimos el arreglo de rutas principales de la aplicación
 export const routes: Routes = [
@@ -13,6 +14,7 @@ export const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('./admin-dashboard/admin-dashboard.routes'),
+    // canMatch: [IsAdminGuard],
   },
   {
     path: '',

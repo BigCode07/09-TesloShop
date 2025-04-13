@@ -22,6 +22,7 @@
       type="text"
       placeholder="Slug"
       class="input input-bordered w-full"
+      [class.border-red-500]="productForm.get('slug')?.errors ?? false"
     />
 
     <textarea
