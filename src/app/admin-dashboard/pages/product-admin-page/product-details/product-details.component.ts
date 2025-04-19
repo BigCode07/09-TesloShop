@@ -1,12 +1,13 @@
 import { Size } from './../../../../products/interfaces/product.interface';
 import { Product } from '@/products/interfaces/product.interface';
-import { Component, inject, input, OnInit } from '@angular/core';
+import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { ProductCarouselComponent } from '../../../../products/components/product-carousel/product-carousel.component';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormUtils } from '@/utils/form-utils';
 import { FormErrorLabelComponent } from '../../../../shared/components/form-error-label/form-error-label.component';
 import { ProductsService } from '@/products/services/products.service';
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'product-details',
@@ -21,6 +22,10 @@ export class ProductDetailsComponent implements OnInit {
   product = input.required<Product>();
   productsService = inject(ProductsService);
   router = inject(Router);
+  wasSaved = signal(false);
+
+  imageFileList: FileList | undefined = undefined;
+  tempImages = signal<string[]>([]);
 
   fb = inject(FormBuilder);
 
@@ -65,7 +70,7 @@ export class ProductDetailsComponent implements OnInit {
     this.productForm.patchValue({ sizes: currentSizes });
   }
 
-  onSubmit() {
+  async onSubmit() {
     const isValid = this.productForm.valid;
     this.productForm.markAllAsTouched();
 
@@ -83,18 +88,32 @@ export class ProductDetailsComponent implements OnInit {
 
     if (this.product().id === 'new') {
       //Crear producto
-      this.productsService.createProduct(productLike).subscribe((product) => {
-        console.log('Producto creado');
-        this.router.navigate(['/admin/products', product.id]);
-      });
+      const product = await firstValueFrom(
+        this.productsService.createProduct(productLike)
+      );
 
-      this.productsService.createProduct(productLike);
+      this.router.navigate(['/admin/products', product.id]);
     } else {
-      this.productsService
-        .updateProduct(this.product().id, productLike)
-        .subscribe((product) => {
-          console.log('Producto actualizado');
-        });
+      await firstValueFrom(
+        this.productsService.updateProduct(this.product().id, productLike)
+      );
     }
+
+    this.wasSaved.set(true);
+    setTimeout(() => {
+      this.wasSaved.set(false);
+    }, 3000);
+  }
+
+  // Images
+  onFilesChanged(event: Event) {
+    const fileList = (event.target as HTMLInputElement).files;
+    this.imageFileList = fileList ?? undefined;
+
+    const imageUrls = Array.from(fileList ?? []).map((file) =>
+      URL.createObjectURL(file)
+    );
+
+    this.tempImages.set(imageUrls);
   }
 }
