@@ -12,6 +12,10 @@ export class ProductImagePipe implements PipeTransform {
       return './assets/images/Not-Image.jpg';
     }
 
+    if (typeof value === 'string' && value.startsWith('blog:')) {
+      return value;
+    }
+
     if (typeof value === 'string') {
       return `${baseUrl}/files/product/${value}`;
     }
