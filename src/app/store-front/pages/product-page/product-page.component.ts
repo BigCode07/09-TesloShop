@@ -1,8 +1,7 @@
-import { Product } from './../../../products/interfaces/product.interface';
-import { ProductsService } from '@/products/services/products.service';
-import { Component, inject, resource } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
+import { ProductsService } from '@products/services/products.service';
 import { ProductCarouselComponent } from '../../../products/components/product-carousel/product-carousel.component';
 
 @Component({
@@ -16,9 +15,9 @@ export class ProductPageComponent {
 
   productIdSlug = this.activatedRoute.snapshot.params['idSlug'];
 
-  productResource = resource({
+  productResource = rxResource({
     request: () => ({ idSlug: this.productIdSlug }),
     loader: ({ request }) =>
-      firstValueFrom(this.productService.getProductByIdSlug(request.idSlug)),
+      this.productService.getProductByIdSlug(request.idSlug),
   });
 }

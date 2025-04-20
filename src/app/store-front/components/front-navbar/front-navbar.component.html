@@ -1,4 +1,4 @@
-<div class="navbar bg-base-100 shadow-sm">
+<div class="navbar bg-base-100">
   <div class="navbar-start">
     <div class="dropdown">
       <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
@@ -19,37 +19,41 @@
       </div>
       <ul
         tabindex="0"
-        class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+        class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
       >
         <li>
           <a
             routerLink="/gender/men"
             class="btn btn-ghost"
             routerLinkActive="text-secondary"
-            >Hombres</a
           >
+            Hombres
+          </a>
         </li>
         <li>
           <a
             routerLink="/gender/women"
             class="btn btn-ghost"
             routerLinkActive="text-secondary"
-            >Mujeres</a
           >
+            Mujeres
+          </a>
         </li>
         <li>
           <a
-            routerLink="/gender/kids"
+            routerLink="/gender/kid"
             class="btn btn-ghost"
             routerLinkActive="text-secondary"
-            >Kids</a
           >
+            Kids
+          </a>
         </li>
       </ul>
     </div>
-    <a class="btn btn-ghost text-xl" routerLink=""
-      >Teslo <span class="text-secondary font-monserrat">| Shop</span></a
-    >
+    <a routerLink="/" class="btn btn-ghost text-xl font-montserrat">
+      Teslo
+      <span class="text-secondary">| Shop</span>
+    </a>
   </div>
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal px-1">
@@ -58,35 +62,37 @@
           routerLink="/gender/men"
           class="btn btn-ghost"
           routerLinkActive="text-secondary"
-          >Hombres</a
         >
+          Hombres
+        </a>
       </li>
       <li>
         <a
           routerLink="/gender/women"
           class="btn btn-ghost"
           routerLinkActive="text-secondary"
-          >Mujeres</a
         >
+          Mujeres
+        </a>
       </li>
       <li>
         <a
-          routerLink="/gender/kids"
+          routerLink="/gender/kid"
           class="btn btn-ghost"
           routerLinkActive="text-secondary"
-          >Kids</a
         >
+          Kids
+        </a>
       </li>
     </ul>
   </div>
   <div class="navbar-end gap-4">
     @if (authService.isAdmin()) {
-    <button class="btn btn-ghost" routerLink="/admin">
-      Panel Administrativo
-    </button>
+    <a routerLink="/admin" class="btn text-accent">Admin Panel</a>
     }
     <!--  -->
-    @if (authService.authStatus() === "authenticated") {
+
+    @if ( authService.authStatus() === 'authenticated' ) {
     <button class="btn btn-ghost">
       {{ authService.user()?.fullName }}
     </button>
@@ -94,12 +100,10 @@
       Salir
     </button>
     }
-
     <!--  -->
-    @else if (authService.authStatus() === "not-authenticated") {
+    @else if ( authService.authStatus() === 'not-authenticated' ) {
     <a routerLink="/auth/login" class="btn btn-secondary">Login</a>
     }
-
     <!--  -->
     @else {
     <a class="btn btn-ghost">...</a>

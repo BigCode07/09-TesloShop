@@ -14,13 +14,20 @@ import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { ProductImagePipe } from '../../pipes/product-image.pipe';
+import { ProductImagePipe } from '@products/pipes/product-image.pipe';
 
 @Component({
   selector: 'product-carousel',
   imports: [ProductImagePipe],
   templateUrl: './product-carousel.component.html',
-  styleUrl: './product-carousel.component.css',
+  styles: `
+    .swiper {
+      width: 100%;
+      height: 500px;
+    }
+
+
+  `,
 })
 export class ProductCarouselComponent implements AfterViewInit, OnChanges {
   images = input.required<string[]>();
@@ -29,7 +36,6 @@ export class ProductCarouselComponent implements AfterViewInit, OnChanges {
   swiper: Swiper | undefined = undefined;
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     if (changes['images'].firstChange) {
       return;
     }
@@ -37,7 +43,15 @@ export class ProductCarouselComponent implements AfterViewInit, OnChanges {
     if (!this.swiper) return;
 
     this.swiper.destroy(true, true);
-    this.swiperInit();
+
+    const paginationEl: HTMLDivElement =
+      this.swiperDiv().nativeElement?.querySelector('.swiper-pagination');
+
+    paginationEl.innerHTML = '';
+
+    setTimeout(() => {
+      this.swiperInit();
+    }, 100);
   }
 
   ngAfterViewInit(): void {

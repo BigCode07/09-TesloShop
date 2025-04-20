@@ -16,14 +16,16 @@
       formControlName="title"
       [class.border-red-500]="productForm.get('title')?.errors ?? false"
     />
-    <shared-form-error-label [control]="productForm.get('title')!" />
+    <form-error-label [control]="productForm.get('title')!" />
+
     <input
-      formControlName="slug"
       type="text"
       placeholder="Slug"
       class="input input-bordered w-full"
+      formControlName="slug"
       [class.border-red-500]="productForm.get('slug')?.errors ?? false"
     />
+    <form-error-label [control]="productForm.get('slug')!" />
 
     <textarea
       class="textarea textarea-bordered"
@@ -32,7 +34,9 @@
       formControlName="description"
       [class.border-red-500]="productForm.get('description')?.errors ?? false"
     ></textarea>
-    <shared-form-error-label [control]="productForm.get('description')!" />
+
+    <form-error-label [control]="productForm.get('description')!" />
+
     <h2 class="text-lg font-bold">Datos de venta</h2>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -44,32 +48,36 @@
           formControlName="price"
           [class.border-red-500]="productForm.get('price')?.errors ?? false"
         />
-        <shared-form-error-label [control]="productForm.get('price')!" />
+        <form-error-label [control]="productForm.get('price')!" />
       </div>
-      <input
-        type="number"
-        placeholder="Inventario"
-        class="input input-bordered w-full"
-        formControlName="stock"
-        [class.border-red-500]="productForm.get('stock')?.errors ?? false"
-      />
-      <shared-form-error-label [control]="productForm.get('stock')!" />
+
+      <div>
+        <input
+          type="number"
+          placeholder="Inventario"
+          class="input input-bordered w-full"
+          formControlName="stock"
+          [class.border-red-500]="productForm.get('stock')?.errors ?? false"
+        />
+        <form-error-label [control]="productForm.get('stock')!" />
+      </div>
     </div>
 
     <!-- tags -->
     <input
       type="text"
-      formControlName="tags"
       placeholder="Tags"
       class="input input-bordered w-full"
+      formControlName="tags"
       [class.border-red-500]="productForm.get('tags')?.errors ?? false"
     />
-    <shared-form-error-label [control]="productForm.get('tags')!" />
+    <form-error-label [control]="productForm.get('tags')!" />
 
     <!-- Botones para el género -->
-    <div class="grid grid-cols-4 gap-2 mt-2" type="button">
+    <div class="grid grid-cols-4 gap-2">
       <!-- <button class="btn btn-sm btn-outline">Masculino</button> -->
       <button
+        type="button"
         class="btn btn-sm"
         [class.btn-primary]="productForm.value.gender === 'men'"
         (click)="productForm.patchValue({ gender: 'men' })"
@@ -77,6 +85,7 @@
         Masculino
       </button>
       <button
+        type="button"
         class="btn btn-sm"
         [class.btn-accent]="productForm.value.gender === 'women'"
         (click)="productForm.patchValue({ gender: 'women' })"
@@ -84,18 +93,21 @@
         Femenino
       </button>
       <button
+        type="button"
+        class="btn btn-sm"
+        [class.btn-warning]="productForm.value.gender === 'kid'"
+        (click)="productForm.patchValue({ gender: 'kid' })"
+      >
+        Kid
+      </button>
+
+      <button
+        type="button"
         class="btn btn-sm"
         [class.btn-secondary]="productForm.value.gender === 'unisex'"
         (click)="productForm.patchValue({ gender: 'unisex' })"
       >
         Unisex
-      </button>
-      <button
-        class="btn btn-sm"
-        [class.btn-info]="productForm.value.gender === 'kid'"
-        (click)="productForm.patchValue({ gender: 'kid' })"
-      >
-        Kids
       </button>
     </div>
 
@@ -106,13 +118,13 @@
     </select> -->
 
     <!-- Sizes -->
-    <div class="grid grid-cols-6 gap-2 mt-2">
+    <div class="grid grid-cols-6 gap-2">
       @for (size of sizes; track size) {
       <button
         class="btn btn-sm"
         type="button"
-        [class.btn-primary]="productForm.value.sizes?.includes(size)"
         (click)="onSizeClicked(size)"
+        [class.btn-secondary]="productForm.value.sizes?.includes(size)"
       >
         {{ size }}
       </button>
@@ -145,15 +157,15 @@
       <img
         [src]="image"
         alt="Temporal image"
-        class="w-full h-80 object-cover rounded-xl"
+        class="w-full object-cover rounded-xl"
       />
       }
     </div>
   </div>
 </form>
 
-@if(wasSaved()){
-<div class="alert alert-success fixed bottom-4 right-4 w-80">
+@if (wasSaved()) {
+<div class="alert alert-success fixed bottom-4 right-4 w-80 animate-fadeIn">
   <span>Datos actualizados correctamente</span>
 </div>
 

@@ -1,5 +1,3 @@
-import { Size } from './../../../../products/interfaces/product.interface';
-import { Product } from '@/products/interfaces/product.interface';
 import {
   Component,
   computed,
@@ -8,13 +6,16 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { ProductCarouselComponent } from '../../../../products/components/product-carousel/product-carousel.component';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormUtils } from '@/utils/form-utils';
-import { FormErrorLabelComponent } from '../../../../shared/components/form-error-label/form-error-label.component';
-import { ProductsService } from '@/products/services/products.service';
-import { Router } from '@angular/router';
+import { ProductCarouselComponent } from '@products/components/product-carousel/product-carousel.component';
 import { firstValueFrom } from 'rxjs';
+
+import { Product } from '@products/interfaces/product.interface';
+import { FormUtils } from '@utils/form-utils';
+import { ProductsService } from '@products/services/products.service';
+
+import { FormErrorLabelComponent } from '../../../../shared/components/form-error-label/form-error-label.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'product-details',
@@ -27,8 +28,11 @@ import { firstValueFrom } from 'rxjs';
 })
 export class ProductDetailsComponent implements OnInit {
   product = input.required<Product>();
-  productsService = inject(ProductsService);
+
   router = inject(Router);
+  fb = inject(FormBuilder);
+
+  productsService = inject(ProductsService);
   wasSaved = signal(false);
 
   imageFileList: FileList | undefined = undefined;
@@ -39,11 +43,8 @@ export class ProductDetailsComponent implements OnInit {
       ...this.product().images,
       ...this.tempImages(),
     ];
-
     return currentProductImages;
   });
-
-  fb = inject(FormBuilder);
 
   productForm = this.fb.group({
     title: ['', Validators.required],
@@ -56,11 +57,11 @@ export class ProductDetailsComponent implements OnInit {
     stock: [0, [Validators.required, Validators.min(0)]],
     sizes: [['']],
     images: [[]],
+    tags: [''],
     gender: [
       'men',
       [Validators.required, Validators.pattern(/men|women|kid|unisex/)],
     ],
-    tags: [''],
   });
 
   sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
@@ -70,8 +71,9 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   setFormValue(formLike: Partial<Product>) {
-    this.productForm.patchValue(formLike as any);
-    this.productForm.patchValue({ tags: formLike.tags?.join('.') });
+    this.productForm.reset(this.product() as any);
+    this.productForm.patchValue({ tags: formLike.tags?.join(',') });
+    // this.productForm.patchValue(formLike as any);
   }
 
   onSizeClicked(size: string) {
@@ -103,15 +105,19 @@ export class ProductDetailsComponent implements OnInit {
     };
 
     if (this.product().id === 'new') {
-      //Crear producto
+      // Crear producto
       const product = await firstValueFrom(
-        this.productsService.createProduct(productLike)
+        this.productsService.createProduct(productLike, this.imageFileList)
       );
 
       this.router.navigate(['/admin/products', product.id]);
     } else {
       await firstValueFrom(
-        this.productsService.updateProduct(this.product().id, productLike)
+        this.productsService.updateProduct(
+          this.product().id,
+          productLike,
+          this.imageFileList
+        )
       );
     }
 

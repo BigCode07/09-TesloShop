@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
+import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
-import { ProductsService } from '@/products/services/products.service';
-import { ProductCardComponent } from '../../../products/components/product-card/product-card.component';
-import { rxResource } from '@angular/core/rxjs-interop';
-import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
-import { PaginationService } from '@/shared/components/pagination/pagination.service';
+import { map, of } from 'rxjs';
+
+import { ProductCardComponent } from '@products/components/product-card/product-card.component';
+import { ProductsService } from '@products/services/products.service';
+import { PaginationComponent } from '@shared/components/pagination/pagination.component';
+import { PaginationService } from '@shared/components/pagination/pagination.service';
 
 @Component({
   selector: 'app-gender-page',

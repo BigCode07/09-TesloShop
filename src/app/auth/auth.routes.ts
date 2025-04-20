@@ -7,7 +7,6 @@ export const authRoutes: Routes = [
   {
     path: '',
     component: AuthLayoutComponent,
-
     children: [
       {
         path: 'login',

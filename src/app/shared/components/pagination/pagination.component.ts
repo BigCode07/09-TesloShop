@@ -8,13 +8,14 @@ import {
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'shared-pagination',
+  selector: 'app-pagination',
   imports: [RouterLink],
   templateUrl: './pagination.component.html',
 })
 export class PaginationComponent {
   pages = input(0);
   currentPage = input<number>(1);
+
   activePage = linkedSignal(this.currentPage);
 
   getPagesList = computed(() => {

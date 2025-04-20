@@ -8,15 +8,16 @@
             <input type="checkbox" class="checkbox" />
           </label>
         </th>
-        <th>Titulo</th>
+        <th>Título</th>
         <th>Precio</th>
-        <th>Stock</th>
+        <th>Inventario</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
       <!-- row 1 -->
       @for (product of products(); track product.id) {
+
       <tr>
         <th>
           <label>
@@ -34,12 +35,12 @@
               </div>
             </div>
             <div>
-              <div
-                class="font-bold hover:text-secondary transition-colors duration-300 cursor-pointer"
+              <a
                 [routerLink]="['/admin/products', product.id]"
+                class="font-bold hover:text-accent transition-colors duration-300"
+                >{{ product.title }}</a
               >
-                {{ product.title }}
-              </div>
+
               <div class="text-sm opacity-50">
                 {{ product.sizes.join(", ") }}
               </div>
@@ -47,17 +48,14 @@
           </div>
         </td>
         <td>
-          <br />
-          <span class="badge badge-ghost badge-sm">
-            {{ product.price | currency }}</span
-          >
+          {{ product.price | currency }}
         </td>
         <td>
-          @if (product.stock <= 10) {
+          @if( product.stock <= 10 ) {
           <span class="badge badge-error">{{ product.stock }}</span>
           }
           <!--  -->
-          @else if (product.stock <= 20){
+          @else if ( product.stock <=20 ) {
           <span class="badge badge-warning">{{ product.stock }}</span>
           }
           <!--  -->
@@ -68,9 +66,10 @@
         <th>
           <a
             [routerLink]="['/admin/products', product.id]"
-            class="btn btn-ghost text-secondary btn-xstn"
-            >Detalles</a
+            class="btn btn-ghost text-accent btn-xs"
           >
+            Detalles
+          </a>
         </th>
       </tr>
       }

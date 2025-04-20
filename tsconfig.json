@@ -5,13 +5,12 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/app/*"],
       "@auth/*": ["./src/app/auth/*"],
-      "@products/*": ["./src/app/products/*"],
       "@dashboard/*": ["./src/app/admin-dashboard/*"],
-      "@store-front/*": ["./src/app/store-front/*"],
+      "@products/*": ["./src/app/products/*"],
       "@shared/*": ["./src/app/shared/*"],
-      "@utils/*": ["./src/app/utils"]
+      "@store-front/*": ["./src/app/store-front/*"],
+      "@utils/*": ["./src/app/utils/*"]
     },
     "outDir": "./dist/out-tsc",
     "strict": true,

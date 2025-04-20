@@ -1,13 +1,15 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
-import { User } from '../interfaces/user.interface';
 import { HttpClient } from '@angular/common/http';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { AuthResponse } from '../interfaces/auth-response.interface';
-import { tap, Observable, map, catchError, of } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 import { rxResource } from '@angular/core/rxjs-interop';
+
+import { AuthResponse } from '@auth/interfaces/auth-response.interface';
+import { User } from '@auth/interfaces/user.interface';
 
 type AuthStatus = 'checking' | 'authenticated' | 'not-authenticated';
 const baseUrl = environment.baseUrl;
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private _authStatus = signal<AuthStatus>('checking');
@@ -32,7 +34,7 @@ export class AuthService {
 
   user = computed(() => this._user());
   token = computed(this._token);
-  isAdmin = computed(() => this.user()?.roles.includes('admin') ?? false);
+  isAdmin = computed(() => this._user()?.roles.includes('admin') ?? false);
 
   login(email: string, password: string): Observable<boolean> {
     return this.http
@@ -53,20 +55,27 @@ export class AuthService {
       return of(false);
     }
 
-    return this.http.get<AuthResponse>(`${baseUrl}/auth/check-status`, {}).pipe(
-      map((resp) => this.handleAuthSuccess(resp)),
-      catchError((error: any) => this.handleAuthError(error))
-    );
+    return this.http
+      .get<AuthResponse>(`${baseUrl}/auth/check-status`, {
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
+      })
+      .pipe(
+        map((resp) => this.handleAuthSuccess(resp)),
+        catchError((error: any) => this.handleAuthError(error))
+      );
   }
 
   logout() {
     this._user.set(null);
     this._token.set(null);
     this._authStatus.set('not-authenticated');
+
     localStorage.removeItem('token');
   }
 
-  private handleAuthSuccess({ user, token }: AuthResponse) {
+  private handleAuthSuccess({ token, user }: AuthResponse) {
     this._user.set(user);
     this._authStatus.set('authenticated');
     this._token.set(token);

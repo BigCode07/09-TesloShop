@@ -1,8 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
-import { ProductTableComponent } from '../../../products/components/product-table/product-table.component';
-import { ProductsService } from '@/products/services/products.service';
-import { PaginationService } from '@/shared/components/pagination/pagination.service';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { ProductsService } from '@products/services/products.service';
+import { PaginationService } from '@shared/components/pagination/pagination.service';
+
+import { ProductTableComponent } from '../../../products/components/product-table/product-table.component';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 import { RouterLink } from '@angular/router';
 
@@ -17,7 +18,7 @@ export class ProductsAdminPageComponent {
 
   productsPerPage = signal(10);
 
-  productResource = rxResource({
+  productsResource = rxResource({
     request: () => ({
       page: this.paginationService.currentPage() - 1,
       limit: this.productsPerPage(),

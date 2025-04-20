@@ -1,13 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { WarningAlertComponent } from '../../components/warning-alert/warning-alert.component';
-import { AuthService } from '@/auth/services/auth.service';
-import { Observable, of } from 'rxjs';
+import { Router, RouterLink } from '@angular/router';
+
+import { AuthService } from '@auth/services/auth.service';
 
 @Component({
   selector: 'app-login-page',
-  imports: [RouterLink, ReactiveFormsModule, WarningAlertComponent],
+  imports: [RouterLink, ReactiveFormsModule],
   templateUrl: './login-page.component.html',
 })
 export class LoginPageComponent {
@@ -28,7 +27,7 @@ export class LoginPageComponent {
       this.hasError.set(true);
       setTimeout(() => {
         this.hasError.set(false);
-      }, 5000);
+      }, 2000);
       return;
     }
 
@@ -41,12 +40,15 @@ export class LoginPageComponent {
       }
 
       this.hasError.set(true);
+      setTimeout(() => {
+        this.hasError.set(false);
+      }, 2000);
     });
   }
+
+  // Check Authentication
+
+  // Registro
+
+  // Logout
 }
-
-//Check Authentication
-
-//Registro
-
-//Logout
